@@ -1,0 +1,130 @@
+NORMAL
+
+1.เคยใช้ Git flow  ช่วยให้สามารถดึงโค้ดหรือข้อมูลเก่าๆได้ ในกรณีเกิดปัญหาสามารถสลับ branch เพื่อแก้ไขจุดนั้นๆ
+2.สร้าง commit ที่ทำให้ยกเลิกการเปลี่ยนเเปลง commit ที่ผิดพลาดทั้งหมด โดยใช้ command git revert<bad commit-id>
+3.เปิดไฟล์ ที่เกิด conflicts ใน vscode(detect conflict code ) ขึ้นมาและทำการ current,incoming,both เพื่อแก้ไขไฟล์ที่เกิด conflict
+4.200 OK status นี้หมายถึง  request สำเร็จ แต่ความหมายที่บอกว่าสำเร็จขึ้นอยู่กับ ขั้นตอน request ที่ใช้ เช่น 
+GET: The resource has been fetched and is transmitted in the message body.
+HEAD: The representation headers are included in the response without any message body
+POST: The resource describing the result of the action is transmitted in the message body
+TRACE: The message body contains the request message as received by the server.
+5.201 Create status นี้หมายถึง request สำเร็จและส่งผลให้มีการสร้างทรัพยากรขึ้น หนึ่งหรือหลายที่ กำลังถูกสร้าง
+(Following a POST command,this indicates sucsess)
+6.301 Moved Permanently status นี้หมายถึง สถานะตอบกลับการเปลี่ยนเส้นทางบอกว่า ทรัพยากรนี้ที่ถูก request ได้ถูกย้ายไปยัง url ที่กำหนดไว้โดย header แล้ว
+rq:{
+    GET /index.php HTTP/1.1 
+    Host: www.example.org
+    }
+rs:{
+    HTTP/1.1 301 Moved Permanently
+    Location: http://www.example.org/index.asp
+    }
+7.400 Bad Request status นี้หมายถึง สถานะการตอบสนองบอกว่า server ไม่สามารถดำเนินการตามคำขอนื่องจากเป็นข้อผิดพลาดของ Client 
+วิธีแก้ไขคือ ตรวจสอบ url, ตรวจสอบการเชื่อมต่อ internet, ล้างคุกกี้, ล้างแคช DNS, บีบอัดไฟล์ , ปิดใช้งานส่วนขยาย, รีสตาร์ทระบบ
+8.401 Unauthorized status นี้หมายถึง เกิดจากการที่ client ไม่ได้ทำ authentication มาก่อน ทำให้ server ไม่สามารถให้ request นี้ทำงานได้
+rs:{
+    HTTP/1.1 401 Unauthorized
+    Date: Wed, 21 Oct 2015 07:28:00 GMT
+    WWW-Authenticate: Basic realm="Access to staging site"
+    }
+วิธีแก้ไข ทำการล้างแคชข้อมูลทั้งหมดของเว็บไซต์ทิ้งและทำการเข้าสู่ระบบใหม่อีกครั้ง
+9.403 Forbidden status นี้หมายถึง server นั้นเข้าใจคำขอแต่ปฎิเสธที่จะอนุญาต status นี้จะคล้ายกับ status  401 แต่การ re-authentication ไม่เกิดความแตกต่างการเข้าถึงนี้ถูกห้ามโดยถาวร
+rs:{
+    HTTP/1.1 403 Forbidden
+    Date: Wed, 21 Oct 2015 07:28:00 GMT
+    }
+วิธีแก้ไขคือ การเพิ่มสิทธิ์
+10.404 Not Found status นี้หมายถึง คือ หน้าที่แจ้งเตือนว่าไม่พบข้อมูลอยู่ใน Server ของเว็บไซต์นี้ หรือไม่พบ URL ของหน้าเว็บไซต์นี้ 
+วิธีแก้ไขคือ เปลี่ยนชื่อ url, ลบหน้าเพจ
+11.500 Internal Server Error status นี้หมายถึง เกิดการทำงานที่ไม่สมบูรณ์ขึ้นที่ server ทำให้ไม่สามารถตอบกลับ client ตามที่ร้องขอมาได้
+วิธีแก้ไขคือ เคลีย browser แคช , ลบคุกกี้ , reload and refresh web page, Check server permisson,
+12.502 Bad Gateway status นี้หมายถึง เกิดปัญหาจากการที่ server ได้รับ error จากอีก server หนึ่งเลยทำให้เกิด Error 502 ขึ้นมาคือมีปัญหาการส่งข้อมูลระหว่าง server
+วิธีแก้ไขคือ ตรวจสอบว่าเว็บไซต์ที่เรียกนั้นล่มจริงๆมั้ย, ลองใช้เว็บเบราว์เซอร์ตัวอื่น, จัดการเคลีย Cache และ Cookies, ลองรีสตาร์ทเครื่อง แล้วเข้าเรียกหน้าเว็บไซต์ใหม่
+13.503 Service Unavailable status นี้หมายถึง เกิดปัญหาจากการที่ server ไม่สามารถจัดการคำขอได้ชั่วคราว นั่นอาจเป็นเว็บ server ที่คุณพยายามเข้าถึงโดยตรงหรือ server อื่นหรือที่ web server พยายามเข้าถึง
+เรียกว่าข้อผิดพลาด 503 เนื่องจากเป็นรหัสสถานะ HTTP ที่ web server ใช้กำหนดข้อผิดพลาดประเภทนั้น ข้อผิดพลาดอาจเกิดขึ้นได้จากหลายสาเหตุ แต่สาเหตุที่พบบ่อยที่สุด 2 ประการคือเซิร์ฟเวอร์เต็มไปด้วยคำขอหรือกำลังดำเนินการบำรุงรักษา
+วิธีแก้ไขคือ Refresh the page, See if the page is down for other people, Restart your router, Restart the server
+14.504 Gateway Timeout status นี้หมายถึง ข้อผิดพลาด HTTP 504 (เกตเวย์หมดเวลา) เป็นรหัสการตอบสนองสถานะที่ส่งสัญญาณถึงความล้มเหลวของเซิร์ฟเวอร์ระหว่างการประมวลผลคำขอของคุณ ... เว็บไซต์ที่กำหนดเวลาลงทะเบียน (โดยไม่มีเว็บสำรอง) หรือแม้กระทั่งเว็บที่อยู่ดีๆ ก็ได้รับความสนใจขึ้นมาอย่างปัจจุบันทันด่วน
+วิธีแก้ไขคือ เช็ค proxy server setting in your browser, restart server , check back API regularly
+15.Ping เป็นการทดสอบว่าเส้นทางสื่อสารจากเครื่องที่ใช้อยู่ไปยังเครื่องคอมพิวเตอร์เครื่องอื่นในเครือข่ายว่ายังใช้การได้หรือไม่
+nslookup เป็นการตรวจสอบว่าหมายเลข IP Address อันนี้เป็นของเว็บไซต์อะไร 
+netstat เป็นการตรวจสอบการเชื่อมต่อจากที่ต่างๆออกมาทั้งหมด
+tracert จะมีลักษณะการใช้งานคล้ายกับการ ping แต่แตกต่างกันตรงที่ ผลลัพธ์ที่แสดงออกมาจะเป็นเส้นทางที่ใช้ไปยังสถานที่นั้น ว่าผ่านไปที่ใดบ้างจนถึงปลายทาง
+ipconfig เป็นคำสั่งที่ใช้สำหรับเรียกดูหมายเลข IP Address ของเครื่องที่เราใช้งานอยู่
+
+INTERMEDIATE 
+
+1.Client แต่ละประเภทต้องการข้อมูลไม่เท่ากัน mobile อาจจะต้องการแสดงผลข้อมูลที่น้อยกว่า website,Client แต่ละประเภท Access ด้วย Network ไม่เหมือนกัน ,Service บางอันใช้ Protocol พิเศษในการทำงาน(gRPC,AMQP)
+วิธีแก้ปัญหา ใช้ load balancer
+2. User a Smaller Image Base(Alpine), Use a .dockerignore File, Utilize the Multi-Stage Builds Feature in Dockerignore, Avoid Adding Unnecessary Layers to Reducde Docker Image Size
+Beware of Update and Unnecessary Packages and Dependencies
+3.Host Network มีความปลอดภัยในการเข้าถึง containers น้อยที่สุดเพราะ containers จะรันอยู่บน host network ซึ่งสามารถ full access ได้จาก host interface จึงเป็น open containers 
+Bridge Network เป็น default network ของ docker สามารถ access จาก host ได้และใช้งาน Internet จากภายใน container ได้ Bridge Network  เหมาะกับการสร้าง network เล็กๆที่อยู่บน host ตัวเดียวกัน
+Overlay Network เป็นการรัน container ที่มีการคุยกันข้าม docker deamons(host network) เป็นระบบ network ที่ใหญ่กว่า Bridge Network เหมาะกับงานที่มีการ distribute network
+4.แต่ละ node มี process ชื่อ kubelet ไว้คุยกับ master และมี docker ในตัวเพื่อรัน containers มี (ClusterIP ที่เอาไว้ใช้คุยกันระหว่าง Pods ใน Cluster ต่อจากข้างนอกเข้ามาไม่ได้)
+5.Layer 2 ไม่ได้ใช้ตัวโหลดบาลานซ์ แต่จะใช้กลไกการ failover  เพื่อให้ node อื่นสามารถเข้าควบคุมได้หาก Leader node ปัจจุบันล้มเหลวด้วยเหตุผลบางประการ
+Load Balancer Layer 4 จะมองเห็นข้อมูลเครือข่าย Protocol (TCP / UDP) Load Balancer Traffic โดยรวมข้อมูลเครือข่ายที่ จำกัด นี้เข้ากับอัลกอริธึม เช่น Round-Robin, LeastConnection 
+    และโดยการคำนวณเซิร์ฟเวอร์ปลายทางที่ดีที่สุดตามการเชื่อมต่อน้อยที่สุดหรือเวลาตอบสนองของเซิร์ฟเวอร์
+Load Balancer Layer 7 การทำงานในระดับ Application และสามารถใช้ข้อมูล Application เพิ่มเติมนี้เพื่อทำการตัดสินใจในการทำ Load Balancer ที่ซับซ้อนและมีข้อมูลมากขึ้น 
+    ด้วยโปรโตคอลเช่น HTTP, HTTPS โดย Load Balancer Layer 7 สามารถระบุ Session Client ตามคุกกี้และใช้ข้อมูลนี้เพื่อส่งคำขอ Client ทั้งหมดไปยัง Server เดียวกัน
+load balancer ใช้งานเมื่อมีการเรียกเข้าใช้งานเว็บไซต์หรือ Application ในเวลาเดียวกันในปริมาณที่สูงมากๆ เกินกว่าที่ระบบจะรองรับไหว
+
+Professional
+
+1.Log จัดการด้วย ELK stack(ElasticSearch Logstash Kibana)
+ที่ใช้ตัวนี้เพราะ Elastic Search คือ ตัว Search Engine แบบ Distributed ซึ่ง ถูกพัฒนาต่อยอดมาจาก Apache Lucene ซึ่งนิยมเอามาใช้ ใน การ Search ในระบบ Big Data ซึ่งข้อมูลที่ได้ จะค่อนข้าง Realtime
+Logstash เป็นตัวจัดการข้อมูลใน Log ทั้งหมด ในรูปแบบต่างๆ และ parser ข้อมูลที่อยู่ใน log ด้วย regular expression
+Kibana เป็น Visualization หมายถึง เป็นเครื่องมือที่ทำหน้าที่เป็น Dashboard คอยรวบรวมข้อมูล และสร้างกราฟ ซึ่งจะทำให้สามารถ ทำการ Analze ข้อมูลได้ โดยง่ายๆ
+
+Mertics and alert  จัดการด้วย Prometheus 
+เป็นระบบ monitoring และ alerting toolkit
+Prometheus ทำงานได้ดีกับข้อมูลที่เป็นตัวเองตามลำดับเวลา (purely numeric time series)
+ทำงานได้ดีกับทั้งการ monitor การทำงานของเครื่องเป็นหลัก หรือของ service เป็นหลัก
+ออกแบบให้ reliability แต่ละ node ของ Prometheus เป็นแบบ standalone ไม่จำเป็นต้องพึ่งพา network storage หรือ remote service อื่นๆในการทำงาน
+
+2.application
+Unvalidated Input
+    เราควรจะตรวจสอบข้อมูลที่รับมาจากทั้ง 2 ฝั่ง คือ ข้อมูลที่รับมาจาก client ผ่านทาง Browser และข้อมูลที่รับมาประมวลผลที่ web server โดยตรวจสอบที่ web server อีกครั้งก่อนนำไปประมวลผลด้วย Web application
+Broken Access Control
+    พยายามอย่าใช้ User ID ที่ง่ายเกินไป และ Default User ID ที่ง่ายต่อการเดา 
+Broken Authentication and Session Management
+    ที่สำคัญที่สุด คือการตั้งชื่อ User Name และ Password ควรจะมีความซับซ้อน ไม่สามารถเดาได้ง่าย มีความยาวไม่ต่ำกว่า 8 ตัวอักษร และมีข้อกำหนดในการใช้ Password (Password Policy) ว่าควรมีการเปลี่ยน Password เป็นระยะๆ
+Cross Site Scripting (XSS) Flaws
+    Security Awareness Training ให้กับ User ซึ่งควรจะทำทุกปี ปีละ 2-3
+Buffer Overflow
+    หมั่นติดตามข่าวสาร New Vulnerability และ คอยลง Patch ให้กับระบบของเราอย่างสม่ำเสมอ และลง ให้ทันท่วงทีก่อนที่จะมี exploit ใหม่ๆ
+
+infrastructure 
+Have experts conduct an IT assessment/audit and planning.
+    ให้ผู้เชี่ยวชาญในด้าน IT ประเมิณ/ตรวจสอบ และวางแผนพวกเขาจะสามารถระบุจุดอ่อนหรือช่องโหว่ในระบบและให้คำแนะนำว่าควรแก้ไขช่องโหว่เหล่านั้นยังไง
+Create and enforce IT security policies.
+    ผู้ดูแลระบบไอทีเป็นต้องมีชุดนโยบายและขั้นตอนการปฏิบัติงานมาตรฐาน (SOP) สำหรับพนักงาน ทุกคนควรตระหนักและฝึกฝนเกี่ยวกับวิธีการใช้ระบบและเครื่องมือไอทีอย่างปลอดภัยและมีความรับผิดชอบ
+Enforce a strong password policy.
+    แนวทางความปลอดภัยด้านไอทีควรมีนโยบายรหัสผ่านที่รัดกุม ซึ่งจะช่วยป้องกันความพยายามในการบุกรุกระบบ
+Back-up your data.
+Always update your anti-virus software.
+Update workstations and software.
+Implement a hosted DNS solution
+
+data
+Encrypt your data.
+Backup your data.
+The cloud provides a viable backup option.
+Anti-malware protection is a must.
+Make your old computers hard drives unreadable.
+Install operating system updates.
+Automate your software updates.
+Secure your wireless network at your home or business.
+Use "passphrases" rather than "passwords".
+
+3.software upgrade
+Conduct a Full Systems Audit
+Phased Migration vs. Full Replacement
+Update Software at the Same Time
+
+database migration
+Take A Migration Readiness Assessment
+Decide Which Data You Actually Need To Migrate
+Select The Appropriate Migration Services And Tools
+Prepare For The Unexpected
+
+
