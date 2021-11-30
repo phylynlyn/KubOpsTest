@@ -60,7 +60,7 @@ Beware of Update and Unnecessary Packages and Dependencies
 3.Host Network มีความปลอดภัยในการเข้าถึง containers น้อยที่สุดเพราะ containers จะรันอยู่บน host network ซึ่งสามารถ full access ได้จาก host interface จึงเป็น open containers 
 Bridge Network เป็น default network ของ docker สามารถ access จาก host ได้และใช้งาน Internet จากภายใน container ได้ Bridge Network  เหมาะกับการสร้าง network เล็กๆที่อยู่บน host ตัวเดียวกัน
 Overlay Network เป็นการรัน container ที่มีการคุยกันข้าม docker deamons(host network) เป็นระบบ network ที่ใหญ่กว่า Bridge Network เหมาะกับงานที่มีการ distribute network
-4.แต่ละ node มี process ชื่อ kubelet ไว้คุยกับ master และมี docker ในตัวเพื่อรัน containers มี (ClusterIP ที่เอาไว้ใช้คุยกันระหว่าง Pods ใน Cluster ต่อจากข้างนอกเข้ามาไม่ได้)
+4.ใน Kubernetes แต่ละ Pod มีที่อยู่ IP Pod สามารถสื่อสารกับ Pod อื่นได้ด้วยการระบุที่อยู่ IP โดยตรง แต่วิธีที่แนะนำคือการใช้ Services, Service is a set of Pods ซึ่งสามารถเข้าถึงได้ด้วยชื่อ fixed DNS หรือที่อยู่ IP 
 5.Layer 2 ไม่ได้ใช้ตัวโหลดบาลานซ์ แต่จะใช้กลไกการ failover  เพื่อให้ node อื่นสามารถเข้าควบคุมได้หาก Leader node ปัจจุบันล้มเหลวด้วยเหตุผลบางประการ
 Load Balancer Layer 4 จะมองเห็นข้อมูลเครือข่าย Protocol (TCP / UDP) Load Balancer Traffic โดยรวมข้อมูลเครือข่ายที่ จำกัด นี้เข้ากับอัลกอริธึม เช่น Round-Robin, LeastConnection 
     และโดยการคำนวณเซิร์ฟเวอร์ปลายทางที่ดีที่สุดตามการเชื่อมต่อน้อยที่สุดหรือเวลาตอบสนองของเซิร์ฟเวอร์
@@ -128,3 +128,41 @@ Select The Appropriate Migration Services And Tools
 Prepare For The Unexpected
 
 
+4.Ansible 
+
+because Ansible is very promising with the growing trend and very cheap and
+
+still need to use it because Ansible is an IT automation tool that deploys software, 
+configures systems, and organizes more complex IT functions such as rolling updates or continuous deployments. 
+On the other hand, Kubernetes is a system designed to orchestrate Docker containers. 
+It manages workloads and uses nodes to handle scheduling to make sure that their condition matches the users’ expectations.
+
+5.
+Kubernetes Networking (Cloud, Hybrid, or On-Prem)
+Kubernetes Security, Compliance & Benchmarks
+Kubernetes Cluster Access
+Kubernetes High Availability & Scaling
+Kubernetes Ingress
+    Have separate ingress controllers for the platform tools.
+    SSL management for ingress endpoints.
+    Do not try to route all the apps through the same ingress. If your apps grow day by day, they could end up in a big configuration file creating issues.
+Kubernetes Backup & Restore Strategy
+Kubernetes Node & Container Image Patching & Lifecycle Management
+Kubernetes Cluster Upgrades
+Kubernetes Cluster Capacity & Storage
+Kubernetes Logging & Monitoring
+
+Ingress using Nginx Controller
+
+
+
+6.การ ทำ SLA(service level agreements) จะเกิดขึ้นเมื่อ ไม่ถึงระดับของความ reliability ที่คาดหวังไว้ เป็นข้อตกลงทางธุระกิจ
+ที่ลูกค้าและผู้ให้บริการตกลงกันทั้งสองฝ่าย มักจะขึ้นอยู่กับ SLOs เป็นข้อตกลงทางการค้ามากกว่าที่อธิบายว่าจะดำเนินการแก้ไขใดหากบริการไม่ตรงตามข้อกำหนดสัญญา
+SLA จึงเป็นข้อตกลงทางการค้า ที่เกี่ยวข้อกับ SLO (SLIs drive SLOs inform SLAs)
+
+SLI
+95% latency homepage SLI will succeed 99.9% over trailing year
+SLA
+Service credits if 95% homepage SLI succeed less than 99.5% over trailing year
+
+SLIs เป็นการวัดตัวเลขที่กำหนดไว้อย่างดีสำหรับสิ่งที่เป็น และด้วย SLOs เราทำงานร่วมกันระหว่างเจ้าของ produect เพื่อให้แน่ใจว่าบริการทำงานในระดับที่เหมาะสม

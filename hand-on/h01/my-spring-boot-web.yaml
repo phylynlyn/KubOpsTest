@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: my-spring-boot-web
+  name: my-spring-boot-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-spring-boot-web
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: my-spring-boot-web
+    spec:
+      containers:
+      - image: phylynlyn/java-spring-boot-web:v1
+        name: java-spring-boot-web
+        resources: {}
+status: {}
