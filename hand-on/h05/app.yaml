@@ -1,0 +1,7 @@
+levis:
+  name: "dotnet"
+  deployment:
+    containers:
+      image: "dotnet"
+  sevice:
+    enable: true
