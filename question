@@ -1,6 +1,69 @@
 NORMAL
 
 1.เคยใช้ Git flow  ช่วยให้สามารถดึงโค้ดหรือข้อมูลเก่าๆได้ ในกรณีเกิดปัญหาสามารถสลับ branch เพื่อแก้ไขจุดนั้นๆ
+
+เพิ่มเติม // git เป็น vcs ที่ช่วยจัดการ code ของเราโดยจะเก็บประวัติว่าไฟล์แต่ละไฟล์ถูกสร้าง/ลบ/แก้ไขโดยใคร เมื่อไหร่ 
+และอย่างไรเอาไว้ทั้งหมด ทำให้เราสามารถติดตามการเปลี่ยนแปลงของโค้ดได้ตลอด หรือแม้กระทั่งย้อนเวลาโค้ดกลับไปก่อนตอนที่จะพังก็ยังทำได้
+
+ช่วยให้เราทำงานเป็นระบบ และ มีระเบียบมากขึ้น
+ทำให้สิ่งที่แก้ไขเพิ่มเติมไม่กระทบกับ Branch หลัก ในกรณีที่เกิดมีผู้พัฒนาคนใดคนหนึ่ง Commit งานมาแล้วทำให้มีปัญหาเกิดขึ้นหรืออะไรก็ตามแต่ ดังนั้นเมื่อเกิดข้อผิดพลาดก็จะไปแก้แค่ใน Branch ที่ผู้พัฒนาคนนั้นแตกออกไป
+ทำให้เราแยก Features หรือ Function หลายๆ อย่างออกจากกันได้เมื่อพัฒนาเสร็จจึงค่อยเอามารวมกันในจุดเดียว
+
+Mainline Branch Strategy
+เป็นวิธีการที่เรียบง่ายที่สุด
+แถมยังมีประสิทธิภาพอย่างมากสำหรับทีมที่ไม่ใหญ่มาก
+เนื่องจากจะทำงานบน branch หลักเดียวเท่านั้น
+โดยที่ branch หลักนี้ ต้องพร้อมที่จะ deploy/release อยู่ตลอดเวลา
+
+ในการทำงานนั้น developer แต่ละคน
+จะทำงานบน local branch ของตัวเอง
+เมื่อทำการพัฒนาเสร็จแล้ว
+ให้ทำการ merge code เขาไปยัง branch หลัก
+
+Feature Branch Strategy
+ทำการจัดการ code แต่ละ branch แยกตาม feature ไป
+เมื่อ developer ทำการพัฒนา และ ทดสอบเสร็จแล้ว
+จะทำการ merge code จาก feature branch
+ไปยัง integration branch
+จากนั้นทำการทดสอบอีกครั้งบน integration branch
+เมื่อทุกอย่างเรียบร้อย ก็ทำการ merge กลับไปยัง branch หลักต่อไป
+
+Environment Branch Strategy
+เป็นอีกรูปแบบหนึ่งของการจัดการ branch
+ซึ่งจะทำการสร้าง branch ขึ้นมาตามจำนวนของ environment ของระบบ เช่น
+Development
+Testing
+Staging
+Pre-production
+Production
+ถ้าต้องการที่จะ deploy ไปยัง environment ไหน
+ก็ให้ทำการสร้าง merge request จาก branch หลักไปยัง branch นั้น ๆ ซะ
+ตัวอย่างเช่น
+
+ในปัจจุบัน branch หลักทำการ deploy ไปยัง staging แล้ว
+จากนั้นถ้าต้องการ deploy ไปยัง pre-production ก็ให้ทำการสร้าง merge request
+ถ้าต้องการ deploy ไปยัง production ก็ให้สร้าง merge request จาก pre-production อีกที
+โดยจากขั้นตอนการทำงานจะเป็นแบบทิศทางเดียวเท่านั้น
+เพื่อทำให้มั่นใจว่า ได้ทำการทดสอบบนทุก ๆ environment
+
+Released Branch Strategy
+หรือจะเรียกว่า Branch by release นั่นเอง
+ในแต่ละ branch คือ แยกไปตามแต่ละ version ของระบบงาน
+แต่ส่วนการทำงานหลักยังคงอยู่ที่ branch หลักนะ
+
+แต่ปัญหาที่ตามมาก็คือ
+การดูแลจัดการในแต่ละ branch หรือ แต่ละ release
+ซึ่งก่อนอื่นต้องทำการแก้ไขและ merge มายัง branch หลักก่อนเสมอ
+จากนั้นจึงใช้ความสามารถของ git ชื่อว่า Cherry Pick
+
+เพื่อหยิบการแก้ไขไปยัง branch หรือ release ต่าง ๆ ต่อไป
+รวมทั้งถ้าทำการแก้ไขในแต่ละ branch หรือ release แล้ว
+ต้องทำการ Cherry Pick มายัง branch หลักเช่นกัน
+
+โดยนโยบาย หรือ วิธีการทำงานแบบนี้
+เรียกว่า Upstream First
+
+
 2.สร้าง commit ที่ทำให้ยกเลิกการเปลี่ยนเเปลง commit ที่ผิดพลาดทั้งหมด โดยใช้ command git revert<bad commit-id>
 3.เปิดไฟล์ ที่เกิด conflicts ใน vscode(detect conflict code ) ขึ้นมาและทำการ current,incoming,both เพื่อแก้ไขไฟล์ที่เกิด conflict
 4.200 OK status นี้หมายถึง  request สำเร็จ แต่ความหมายที่บอกว่าสำเร็จขึ้นอยู่กับ ขั้นตอน request ที่ใช้ เช่น 
@@ -68,6 +131,11 @@ Load Balancer Layer 7 การทำงานในระดับ Application 
     ด้วยโปรโตคอลเช่น HTTP, HTTPS โดย Load Balancer Layer 7 สามารถระบุ Session Client ตามคุกกี้และใช้ข้อมูลนี้เพื่อส่งคำขอ Client ทั้งหมดไปยัง Server เดียวกัน
 load balancer ใช้งานเมื่อมีการเรียกเข้าใช้งานเว็บไซต์หรือ Application ในเวลาเดียวกันในปริมาณที่สูงมากๆ เกินกว่าที่ระบบจะรองรับไหว
 
+L7 OSI model ingress
+
+L4 service type loadbalancer
+L2 hardware ซื้อขาย protect ddos challenger attacks
+
 Professional
 
 1.Log จัดการด้วย ELK stack(ElasticSearch Logstash Kibana)
@@ -127,6 +195,16 @@ Decide Which Data You Actually Need To Migrate
 Select The Appropriate Migration Services And Tools
 Prepare For The Unexpected
 
+
+3.rollback (incident)
+
+database migration (snapshot database) clone database read replica rolling update  down operation
+
+software upgrade if node (label tick on node) 
+
+drain แปะ label cons is if job can't new born it'll destroy
+
+cordon 
 
 4.Ansible 
 
